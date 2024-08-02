@@ -37,9 +37,9 @@ jobs:
               }
             ]
         run: |
-          BPATHS="${{ fromJson(env.BRUTPATHS) }}"
+          BPATHS="${{ join(fromJson(env.BRUTPATHS)) }}"
           echo "${BPATHS}" >> $GITHUB_OUTPUT
-          BISP="${{ fromJson(env.BRUTISP) }}"
+          BISP="${{ join(fromJson(env.BRUTISP)) }}"
           echo "${BISP}" >> $GITHUB_OUTPUT
       - name: debug
         run: |
