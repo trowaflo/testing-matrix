@@ -45,13 +45,13 @@ jobs:
       - name: debug
         run: |
           echo "${{ steps.prepare.outputs.BRUTPATHS }}"
-          echo "${{ steps.prepare.outputs.BRUTPATHS }}"
+          echo "${{ steps.prepare.outputs.BRUTISP }}"
       - name: Build matrix
         uses: actions/github-script@v6
         id: build-matrix
         env:
-          PATHS: ${{ toJson(fromJson(steps.prepare.outputs.BRUTPATHS)) }}
-          ISP: ${{ toJson(fromJson(steps.prepare.outputs.BRUTISP)) }}
+          PATHS: ${{ join(fromJson(steps.prepare.outputs.BRUTPATHS)) }}
+          ISP: ${{ join(fromJson(steps.prepare.outputs.BRUTISP)) }}
         with:
           script: |
             const script = require('./.github/scripts/build-matrix-isp.js')
