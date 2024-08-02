@@ -1,7 +1,7 @@
 
 module.exports = ({ context, core }) => {
-  const paths = PATHS.split(',');
-  const ispList = JSON.parse(ISP);
+  const paths = process.env.PATHS.split(',');
+  const ispList = JSON.parse(process.env.ISP);
   const pathMapping = {};
 
   console.log('Paths:', paths);
