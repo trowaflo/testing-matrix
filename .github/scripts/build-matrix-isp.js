@@ -1,31 +1,38 @@
-
 module.exports = ({ context, core }) => {
-  const paths = process.env.PATHS.split(',');
-  const ispList = JSON.parse(process.env.ISP);
-  const pathMapping = {};
+    // Convertir les variables d'environnement en structures utilisables
+    const paths = process.env.PATHS.split(',');
+    const ispList = JSON.parse(process.env.ISP);
 
-  console.log('Paths:', paths);
-  console.log('ISP List:', ispList);
+    // Afficher les chemins et ISP pour le débogage
+    console.log('Paths:', paths);
+    console.log('ISP List:', ispList);
 
-  paths.forEach(path => {
-    const normalizedPath = path.replace(/-/g, '');
-    const matchingIsp = ispList.find(isp => normalizedPath.includes(isp.workspace.replace(/-/g, '')));
+    // Créer un tableau de résultats en faisant correspondre les chemins aux ISP
+    const pathMapping = paths.map(path => {
+      // Chercher une correspondance dans ISP en utilisant working-directory
+      const matchingIsp = ispList.find(isp => isp['working-directory'] === path);
 
-    console.log(`Matching ISP for path ${path}:`, matchingIsp);
+      // Afficher la correspondance trouvée pour le chemin
+      console.log(`Matching ISP for path ${path}:`, matchingIsp);
 
-    if (matchingIsp) {
-      console.log(`Path ${path} matched ISP ${matchingIsp.name}`);
-      pathMapping[path] = {
-        name: matchingIsp.name,
-        workspace: matchingIsp.workspace,
-        'working-directory': path,
-        role: matchingIsp.role,
-        runner: matchingIsp.runner
-      };
-    }
-  });
+      // Retourner l'objet correspondant ou null si aucune correspondance n'est trouvée
+      if (matchingIsp) {
+        console.log(`Path ${path} matched ISP ${matchingIsp.name}`);
+        return {
+          name: matchingIsp.name,
+          workspace: matchingIsp.workspace,
+          'working-directory': path,
+          role: matchingIsp.role,
+          runner: matchingIsp.runner
+        };
+      } else {
+        return null;
+      }
+    }).filter(item => item !== null); // Filtrer les valeurs nulles
 
-  console.log('Path Mapping:', pathMapping);
+    // Afficher le résultat final pour le débogage
+    console.log('Path Mapping:', pathMapping);
 
-  return Object.values(pathMapping);
-};
+    // Retourner le tableau des objets correspondants
+    return pathMapping;
+  };
