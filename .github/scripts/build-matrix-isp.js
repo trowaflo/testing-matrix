@@ -1,39 +1,25 @@
+
 module.exports = ({ context, core }) => {
-  // Convertir les variables d'environnement en structures utilisables
-  const paths = JSON.parse(process.env.PATHS).terraform || [];
-  const ispList = JSON.parse(process.env.ISP);
+  console.log('Building matrix');
+  console.log('Environment variables:', process.env);
+  const paths = process.env.PATHS.split(',');
+  const ispData = JSON.parse(process.env.ISP);
 
-  // Afficher les chemins et ISP pour le débogage
   console.log('Paths:', paths);
-  console.log('ISP List:', ispList);
+  console.log('ISP data:', ispData);
 
-  // Créer un tableau de résultats en faisant correspondre les chemins aux ISP
-  const pathMapping = paths.map(path => {
-    // Chercher une correspondance basée sur les chemins
-    const matchingIsp = ispList.find(isp => {
-      // Vérifier si le chemin contient le workspace de l'ISP
-      return path.includes(isp.workspace) || isp.workspace === 'default';
-    });
+  const pathNameMapping = paths.map(path => {
+    console.log(`Mapping path: ${path}`);
+    const matchingIsp = ispData.find(isp => isp['working-directory'] === path);
+    console.log(`Matching ISP:`, matchingIsp);
 
-    console.log(`Matching ISP for path ${path}:`, matchingIsp);
+    return {
+      path,
+      name: matchingIsp ? matchingIsp.name : 'blabla'
+    };
+  });
 
-    // Retourner l'objet correspondant ou null si aucune correspondance n'est trouvée
-    if (matchingIsp) {
-      return {
-        name: matchingIsp.name,
-        workspace: matchingIsp.workspace,
-        'working-directory': path,
-        role: matchingIsp.role,
-        runner: matchingIsp.runner
-      };
-    } else {
-      return null;
-    }
-  }).filter(item => item !== null); // Filtrer les valeurs nulles
+  console.log('Path name mapping:', pathNameMapping);
 
-  // Afficher le résultat final pour le débogage
-  console.log('Path Mapping:', pathMapping);
-
-  // Retourner le tableau des objets correspondants
-  return pathMapping;
+  return pathNameMapping;
 };
