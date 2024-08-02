@@ -37,10 +37,9 @@ jobs:
               }
             ]
         run: |
-          BRUTPATHS="${{ toJson(fromJson(env.BRUTPATHS)) }}"
-          echo "${BRUTPATHS}"
-          BRUTIS="${{ toJson(fromJson(env.BRUTISP)) }}"
-          echo "${BRUTIS}"
+          echo "BRUTPATHS=${{ toJson(fromJson(env.BRUTPATHS)) }}"
+          echo "BRUTIS=${{ toJson(fromJson(env.BRUTISP)) }}"
+
       - name: debug
         run: |
           echo "${{ steps.prepare.outputs.BRUTPATHS }}"
