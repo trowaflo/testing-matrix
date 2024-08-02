@@ -13,9 +13,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Build matrix
-        uses: actions/github-script@v6
-        id: build-matrix
+      - name: prepare
+        id: prepare
         env:
           BRUTPATHS: |
             {"docker":[],"helm":[],"helmfile":[],"packer":[],"rego":[],"terraform":[".cloud/terraform",".cloud/terraform/modules/toto",".cloud/terraform/blabla-staging"],"terraformWithWorkspace":[{"path":".cloud/terraform","workspace":"toto-prod"},{"path":".cloud/terraform","workspace":"toto-staging"},{"path":".cloud/terraform/modules/proxy_api_v2","workspace":"default"},{"path":".cloud/terraform/blabla-staging","workspace":"default"}]}
@@ -37,8 +36,15 @@ jobs:
                   runner: 'blabla-backend-lambda'
               }
             ]
-          PATHS: ${{ join(fromJson(env.BRUTPATHS)) }}
-          ISP: ${{ join(fromJson(env.BRUTISP)) }}
+        run: |
+          echo "${{ toJson(fromJson(env.BRUTPATHS)) }}"
+          echo "${{ toJson(fromJson(env.BRUTISP)) }}"
+      - name: Build matrix
+        uses: actions/github-script@v6
+        id: build-matrix
+        env:
+          PATHS: ${{ join(fromJson(steps.prepare.outputs.env.BRUTPATHS)) }}
+          ISP: ${{ join(fromJson(steps.prepare.outputs.env.BRUTISP)) }}
         with:
           script: |
             const script = require('./.github/scripts/build-matrix-isp.js')
