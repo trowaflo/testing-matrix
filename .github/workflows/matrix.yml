@@ -38,7 +38,7 @@ jobs:
             ]
         run: |
           BPATHS=$(echo "${BRUTPATHS}" | jq -c .)
-          echo "BRUTPATHS=${BPATHS}" >> $GITHUB_OUTPUT
+          echo "BRUTPATHS=${BRUTPATHS}" >> $GITHUB_OUTPUT
 
           BISP=$(echo "${BRUTISP}" | jq -c .)
           echo "BRUTISP=${BISP}" >> $GITHUB_OUTPUT
@@ -50,7 +50,7 @@ jobs:
         uses: actions/github-script@v6
         id: build-matrix
         env:
-          PATHS: ${{ join(steps.prepare.outputs.BRUTPATHS.terraform) }}
+          PATHS: ${{ join(fromJson(steps.prepare.outputs.BRUTPATHS).terraform) }}
           ISP: ${{ join(steps.prepare.outputs.BRUTISP) }}
         with:
           script: |
