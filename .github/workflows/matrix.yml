@@ -17,23 +17,27 @@ jobs:
         id: prepare
         env:
           BRUTPATHS: |
-            {"docker":[],"helm":[],"helmfile":[],"packer":[],"rego":[],"terraform":[".cloud/terraform",".cloud/terraform/modules/toto",".cloud/terraform/blabla-staging"],"terraformWithWorkspace":[{"path":".cloud/terraform","workspace":"toto-prod"},{"path":".cloud/terraform","workspace":"toto-staging"},{"path":".cloud/terraform/modules/proxy_api_v2","workspace":"default"},{"path":".cloud/terraform/blabla-staging","workspace":"default"}]}
+            {"docker":[],"helm":[],"helmfile":[],"packer":[],"rego":[],"terraform":[".cloud/terraform",".cloud/terraform/modules/xxxx",".cloud/terraform/blsbls-staging"],"terraformWithWorkspace":[{"path":".cloud/terraform","workspace":"xx-prod"},{"path":".cloud/terraform","workspace":"xx-staging"},{"path":".cloud/terraform/modules/proxy_api_v2","workspace":"default"},{"path":".cloud/terraform/blsbls-staging","workspace":"default"}]}
 
           BRUTISP: |
             [
               {
-                  "name": "blibli",
-                  "workspace": "toto-staging",
-                  "working-directory": ".cloud/terraform",
-                  "role": "blibli-backend-deploy-lambda",
-                  "runner": "blibli-backend-lambda"
+                  "name": "bloblo",
+                  "workspace": "xx-staging",
+                  "role": "bloblo-backend-deploy-lambda",
+                  "runner": "bloblo-backend-lambda"
               },
               {
-                  "name": "blabla",
+                  "name": "bloblo",
+                  "workspace": "xx-prod",
+                  "role": "bloblo-backend-deploy-lambda",
+                  "runner": "bloblo-backend-lambda"
+              },
+              {
+                  "name": "blsbls",
                   "workspace": "default",
-                  "working-directory": ".cloud/terraform/blabla-staging",
-                  "role": "blabla-backend-deploy-lambda",
-                  "runner": "blabla-backend-lambda"
+                  "role": "blsbls-backend-deploy-lambda",
+                  "runner": "blsbls-backend-lambda"
               }
             ]
         run: |
