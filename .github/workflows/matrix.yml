@@ -41,21 +41,18 @@ jobs:
               }
             ]
         run: |
-          BPATHS=$(echo "${BRUTPATHS}" | jq -c .)
-          echo "BRUTPATHS=${BRUTPATHS}" >> $GITHUB_OUTPUT
-
-          BISP=$(echo "${BRUTISP}" | jq -c .)
-          echo "BRUTISP=${BISP}" >> $GITHUB_OUTPUT
+          echo "BRUTPATHS=${BRUTPATHS}" >> $GITHUB_ENV
+          echo "BRUTISP=${BRUTISP}" >> $GITHUB_ENV
       - name: debug
         run: |
-          echo "${{ steps.prepare.outputs.BRUTPATHS }}"
-          echo "${{ steps.prepare.outputs.BRUTISP }}"
+          echo "BRUTPATHS: ${{ env.BRUTPATHS }}"
+          echo "BRUTISP: ${{ env.BRUTISP }}"
       - name: Build matrix
         uses: actions/github-script@v6
         id: build-matrix
         env:
-          PATHS: ${{ join(fromJson(steps.prepare.outputs.BRUTPATHS).terraform) }}
-          ISP: ${{ join(steps.prepare.outputs.BRUTISP) }}
+          PATHS: ${{ env.BRUTPATHS }}
+          ISP: ${{ env.BRUTISP }}
         with:
           script: |
             const script = require('./.github/scripts/build-matrix-isp.js')
