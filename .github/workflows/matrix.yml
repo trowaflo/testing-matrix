@@ -50,7 +50,7 @@ jobs:
         uses: actions/github-script@v6
         id: build-matrix
         env:
-          PATHS: ${{ join(steps.prepare.outputs.BRUTPATHS).terraform }}
+          PATHS: ${{ join(steps.prepare.outputs.BRUTPATHS.terraform) }}
           ISP: ${{ join(steps.prepare.outputs.BRUTISP) }}
         with:
           script: |
