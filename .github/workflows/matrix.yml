@@ -39,6 +39,8 @@ jobs:
         run: |
           echo "${{ toJson(fromJson(env.BRUTPATHS)) }}"
           echo "${{ toJson(fromJson(env.BRUTISP)) }}"
+      - name: debug
+        run: echo "${{ steps.prepare.outputs.env.BRUTPATHS }}"
       - name: Build matrix
         uses: actions/github-script@v6
         id: build-matrix
