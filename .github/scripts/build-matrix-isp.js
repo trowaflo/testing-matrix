@@ -1,25 +1,31 @@
 
 module.exports = ({ context, core }) => {
-  console.log('Building matrix');
-  console.log('Environment variables:', process.env);
-  const paths = process.env.PATHS.split(',');
-  const ispData = JSON.parse(process.env.ISP);
+  const paths = PATHS.split(',');
+  const ispList = JSON.parse(ISP);
+  const pathMapping = {};
 
   console.log('Paths:', paths);
-  console.log('ISP data:', ispData);
+  console.log('ISP List:', ispList);
 
-  const pathNameMapping = paths.map(path => {
-    console.log(`Mapping path: ${path}`);
-    const matchingIsp = ispData.find(isp => isp['working-directory'] === path);
-    console.log(`Matching ISP:`, matchingIsp);
+  paths.forEach(path => {
+    const normalizedPath = path.replace(/-/g, '');
+    const matchingIsp = ispList.find(isp => normalizedPath.includes(isp.workspace.replace(/-/g, '')));
 
-    return {
-      path,
-      name: matchingIsp ? matchingIsp.name : 'blabla'
-    };
+    console.log(`Matching ISP for path ${path}:`, matchingIsp);
+
+    if (matchingIsp) {
+      console.log(`Path ${path} matched ISP ${matchingIsp.name}`);
+      pathMapping[path] = {
+        name: matchingIsp.name,
+        workspace: matchingIsp.workspace,
+        'working-directory': path,
+        role: matchingIsp.role,
+        runner: matchingIsp.runner
+      };
+    }
   });
 
-  console.log('Path name mapping:', pathNameMapping);
+  console.log('Path Mapping:', pathMapping);
 
-  return pathNameMapping;
+  return Object.values(pathMapping);
 };
