@@ -13,13 +13,13 @@ module.exports = ({ context, core }) => {
     const matchingIsp = ispData.find(isp => isp['working-directory'] === path);
     console.log(`Matching ISP:`, matchingIsp);
 
-    return {
+    core.setOutput({
       path,
       name: matchingIsp ? matchingIsp.name : 'blabla'
-    };
+    });
   });
 
   console.log('Path name mapping:', pathNameMapping);
 
-  return pathNameMapping;
+  core.setOutput(pathNameMapping);
 };
