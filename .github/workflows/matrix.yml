@@ -38,10 +38,10 @@ jobs:
             ]
         run: |
           BPATHS=$(echo "${BRUTPATHS}" | jq -c .)
-          echo "BRUTPATHS=${BPATHS}" >> $GITHUB_ENV
+          echo "BRUTPATHS=${BPATHS}" >> $GITHUB_OUTPUT
 
           BISP=$(echo "${BRUTISP}" | jq -c .)
-          echo "BRUTISP=${BISP}" >> $GITHUB_ENV
+          echo "BRUTISP=${BISP}" >> $GITHUB_OUTPUT
       - name: debug
         run: |
           echo "${{ steps.prepare.outputs.BRUTPATHS }}"
