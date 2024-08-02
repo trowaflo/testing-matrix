@@ -50,8 +50,8 @@ jobs:
         uses: actions/github-script@v6
         id: build-matrix
         env:
-          PATHS: ${{ steps.prepare.outputs.BRUTPATHS }}
-          ISP: ${{ steps.prepare.outputs.BRUTISP }}
+          PATHS: ${{ join(steps.prepare.outputs.BRUTPATHS) }}
+          ISP: ${{ join(steps.prepare.outputs.BRUTISP) }}
         with:
           script: |
             const script = require('./.github/scripts/build-matrix-isp.js')
