@@ -22,18 +22,18 @@ jobs:
           BRUTISP: |
             [
               {
-                  name: 'blibli',
-                  workspace: 'toto-staging',
-                  'working-directory': '.cloud/terraform',
-                  role: 'blibli-backend-deploy-lambda',
-                  runner: 'blibli-backend-lambda'
+                  name: "blibli",
+                  workspace: "toto-staging",
+                  "working-directory": ".cloud/terraform",
+                  role: "blibli-backend-deploy-lambda",
+                  runner: "blibli-backend-lambda"
               },
               {
-                  name: 'blabla',
-                  workspace: 'default',
-                  'working-directory': '.cloud/terraform/blabla-staging',
-                  role: 'blabla-backend-deploy-lambda',
-                  runner: 'blabla-backend-lambda'
+                  name: "blabla",
+                  workspace: "default",
+                  "working-directory": ".cloud/terraform/blabla-staging",
+                  role: "blabla-backend-deploy-lambda",
+                  runner: "blabla-backend-lambda"
               }
             ]
         run: |
