@@ -37,10 +37,10 @@ jobs:
               }
             ]
         run: |
-          BRUTPATHS="${{ toJson(fromJson(env.BRUTPATHS)) }}"
-          echo "${BRUTPATHS}" >> $GITHUB_OUTPUT
-          BRUTIS="${{ toJson(fromJson(env.BRUTISP)) }}"
-          echo "${BRUTIS}" >> $GITHUB_OUTPUT
+          BPATHS="${{ toJson(fromJson(env.BRUTPATHS)) }}"
+          echo "${BPATHS}" >> $GITHUB_OUTPUT
+          BISP="${{ toJson(fromJson(env.BRUTISP)) }}"
+          echo "${BISP}" >> $GITHUB_OUTPUT
       - name: debug
         run: |
           echo "${{ steps.prepare.outputs.BRUTPATHS }}"
